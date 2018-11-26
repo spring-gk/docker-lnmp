@@ -20,10 +20,10 @@ services:
       volumes:
         - ./data:/var/lib/mysql
       environment:
-        - MYSQL_ROOT_PASSWORD=102323
-        - MYSQL_DATABASE=car_mill
-        - MYSQL_USER=car_mill
-        - MYSQL_PASSWORD=102323
+        - MYSQL_ROOT_PASSWORD=xxx
+        - MYSQL_DATABASE=xxx
+        - MYSQL_USER=xxx
+        - MYSQL_PASSWORD=xxx
       ports:
        - "3306:3306"
 
@@ -39,7 +39,7 @@ services:
        - "80:80"
 
     php:
-      image: daocloud.io/qxhy123/docker-php:5.6.33
+      image:  daocloud.io/spring_gk/docker_php72
       container_name: php
       working_dir: /var/www/html
       volumes:
@@ -48,7 +48,7 @@ services:
         - ./cron.conf:/usr/local/nginx/conf/cron.conf
 
     swoole:
-      image: daocloud.io/qxhy123/docker-php:swoole
+      image: daocloud.io/spring_gk/docker-php72-swoole
       container_name: swoole
       working_dir: /var/www/html
       volumes:
