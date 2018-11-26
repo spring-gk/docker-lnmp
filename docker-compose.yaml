@@ -1,0 +1,58 @@
+version: "3.1"
+services:
+
+    memcached:
+      image: memcached:alpine
+      container_name: memcached
+
+    mongo:
+      image: mongo:3.7.2
+      container_name: mongo
+
+    redis:
+      image: redis:alpine
+      container_name: redis
+
+    mysql:
+      image: mysql:5.7.16
+      container_name: mysql
+      working_dir: /var/lib/mysql
+      volumes:
+        - ./data:/var/lib/mysql
+      environment:
+        - MYSQL_ROOT_PASSWORD=102323
+        - MYSQL_DATABASE=car_mill
+        - MYSQL_USER=car_mill
+        - MYSQL_PASSWORD=102323
+      ports:
+       - "3306:3306"
+
+    nginx:
+      image: nginx:1.11.1
+      container_name: nginx
+      working_dir: /var/www/html
+      volumes:
+        - "./nginx.conf:/etc/nginx/nginx.conf"
+        - "./conf.d:/etc/nginx/conf.d"
+        - "./site:/var/www/html"
+      ports:
+       - "80:80"
+
+    php:
+      image: daocloud.io/qxhy123/docker-php:5.6.33
+      container_name: php
+      working_dir: /var/www/html
+      volumes:
+        - ./site:/var/www/html
+        - ./php-ini-overrides.ini:/usr/local/etc/php/conf.d/zZ99-overrides.ini
+        - ./cron.conf:/usr/local/nginx/conf/cron.conf
+
+    swoole:
+      image: daocloud.io/qxhy123/docker-php:swoole
+      container_name: swoole
+      working_dir: /var/www/html
+      volumes:
+        - ./site:/var/www/html
+        - ./php-ini-overrides.ini:/usr/local/etc/php/conf.d/zZ99-overrides.ini
+      ports:
+        - "8000:8000"
